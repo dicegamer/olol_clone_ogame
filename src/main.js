@@ -10,6 +10,9 @@ import devVars from "./dev/variables.js";
 Vue.prototype.$devVars = devVars;
 
 import VueSession from "vue-session";
+import Axios from "axios";
+
+Vue.prototype.$http = Axios;
 Vue.use(VueSession);
 
 Vue.config.productionTip = false;

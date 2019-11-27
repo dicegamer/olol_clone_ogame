@@ -1,5 +1,5 @@
 <template>
-	<el-dialog :visible.sync="showDialog" width="80%">
+	<el-dialog :title="'Statistiques '+ dialogTitle" :visible.sync="showDialog" width="80%">
 		<el-container style="max-height: 80vh">
 			<el-aside width="200px">
 				<el-menu id="nameSelector" style="overflow: auto; max-height: 500px;">

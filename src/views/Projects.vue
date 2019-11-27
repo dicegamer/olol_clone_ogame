@@ -15,6 +15,7 @@
 						size="mini"
 						type="success"
 						icon="el-icon-video-play"
+						v-if="scope.row.statut === 'Ouvert'"
 						@click="handleEdit(scope.$index, scope.row)"
 					>Jouer</el-button>
 					<el-button

@@ -1,7 +1,8 @@
 <template>
 	<div id="usr-comp">
 		<el-row>
-			<el-col :span="18">
+			<el-col :span="6"><img src="../assets/b_logo.png" alt="Logo du site" style="height: 100px;"></el-col>
+			<el-col :span="10" style="text-align: left;">
 				Nom : {{user.nom}}
 				<br />
 				Prénom : {{user.prenom}}
@@ -15,7 +16,7 @@
 					<el-button type="danger" icon="el-icon-close" @click="logout">Déconnexion</el-button>
 				</el-row>
 				<el-row v-if="user.is_rh">
-					<el-button type="warning" icon="el-icon-s-marketing" @click="meh">Portail RH</el-button>
+					<el-button type="success" icon="el-icon-plus" @click="meh">Ajouter un projet</el-button>
 				</el-row>
 				
 			</el-col>
@@ -59,7 +60,7 @@ export default {
 		margin-bottom: 10px;
 	}
 	& .el-button{
-		width: 50%;
+		width: 85%;
 	}
 }
 
