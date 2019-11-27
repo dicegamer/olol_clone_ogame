@@ -3,13 +3,13 @@
 		<el-row>
 			<el-col :span="6"><img src="../assets/b_logo.png" alt="Logo du site" style="height: 100px;"></el-col>
 			<el-col :span="10" style="text-align: left;">
-				Nom : {{user.nom}}
+				Nom : {{user.lastname}}
 				<br />
-				Prénom : {{user.prenom}}
+				Prénom : {{user.firstname}}
 				<br />
 				Email : {{user.email}}
 				<br />
-				Rôle : {{user.is_rh ? "Ressources Humaines" : "Employé"}}
+				Rôle : {{user.role ? "Ressources Humaines" : "Employé"}}
 			</el-col>
 			<el-col id="usr-comp-controls" :span="6">
 				<el-row>

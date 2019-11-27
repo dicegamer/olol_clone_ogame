@@ -68,7 +68,7 @@ export default {
 				role: 0,
 				password: ""
 			},
-
+			lol: "",
 			passwordConfirm: "",
 
 			rules: {
@@ -111,17 +111,25 @@ export default {
 				this.$message.error("Utilisateur inexistant ou mot de passe incorrect");
 			}
 		},
-		doSignUp() {
-			console.log(this);
+		async doSignUp() {
+			var response = await this.$http.post(
+				"http://wksp.julien-bisson.fr:8080/api/user/add",
+				this.inscriptionForm
+			);
+			if(response.data.status === "success"){
+				this.$emit("logged", this.inscriptionForm);
+			}
+			else{
+				console.log("error");
+				
+			}
 			
-			this.$http
-				.post(
-					"http://wksp.julien-bisson.fr:8080/api/user/add",
-					this.inscriptionForm
-				)
-				.then(function(response) {
-					console.log(response);
-				});
+			// .catch(function(error) {
+			// 	console.log(error);
+			// });
+			// .then(function(error) {
+			// 	console.log(error);
+			// });
 		}
 	}
 };
