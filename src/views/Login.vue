@@ -5,8 +5,8 @@
 			<el-form-item>
 				<el-input
 					placeholder="Login"
-					v-model="loginForm.login"
-					prop="login"
+					v-model="loginForm.email"
+					prop="email"
 					:rules="[
 						{ required: true, message: 'Veuillez entrer votre adresse email', trigger: 'blur' },
 						{ type: 'email', message: 'Veuillez entrer votre adresse email', trigger: ['blur', 'change'] }
@@ -14,7 +14,7 @@
 				></el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-input placeholder="Mot de passe" v-model="loginForm.passwd" show-password></el-input>
+				<el-input placeholder="Mot de passe" v-model="loginForm.password" show-password></el-input>
 			</el-form-item>
 			<el-button type="primary" @click="onSubmit">Se connecter</el-button>
 
@@ -57,8 +57,8 @@ export default {
 	data() {
 		return {
 			loginForm: {
-				login: "",
-				passwd: ""
+				email: "",
+				password: ""
 			},
 
 			inscriptionForm: {
@@ -89,7 +89,23 @@ export default {
 		}
 	},
 	methods: {
-		onSubmit() {
+		async onSubmit() {
+			
+
+			try {
+				var response = await this.$http.post(
+					"http://wksp.julien-bisson.fr:8080/api/user/signin",
+					this.loginForm
+				);
+
+				if (response.data.status === "success") {
+					console.log(response.data);
+					this.$emit("logged", response.data);
+				}
+			} catch (e) {
+				this.$message.error("Utilisateur inexistant ou mot de passe incorrect");
+				console.log(e); // 30
+			}
 			// this.$refs.loginForm.validate(valid => {
 			// 	if (valid) {
 			// 		alert("submit!");
@@ -98,32 +114,30 @@ export default {
 			// 		return false;
 			// 	}
 			// });
-			let foundUserByEmail = this.$devVars.users.find(
-				user => user.email === this.loginForm.login
-			);
-			if (
-				foundUserByEmail !== undefined &&
-				foundUserByEmail.password === this.loginForm.passwd
-			) {
-				this.$emit("logged", foundUserByEmail);
-			} else {
-				console.log("User inexistant");
-				this.$message.error("Utilisateur inexistant ou mot de passe incorrect");
-			}
+			// let foundUserByEmail = this.$devVars.users.find(
+			// 	user => user.email === this.loginForm.login
+			// );
+			// if (
+			// 	foundUserByEmail !== undefined &&
+			// 	foundUserByEmail.password === this.loginForm.passwd
+			// ) {
+
+			// } else {
+			// 	console.log("User inexistant");
+			// 	this.$message.error("Utilisateur inexistant ou mot de passe incorrect");
+			// }
 		},
 		async doSignUp() {
 			var response = await this.$http.post(
 				"http://wksp.julien-bisson.fr:8080/api/user/add",
 				this.inscriptionForm
 			);
-			if(response.data.status === "success"){
+			if (response.data.status === "success") {
 				this.$emit("logged", this.inscriptionForm);
-			}
-			else{
+			} else {
 				console.log("error");
-				
 			}
-			
+
 			// .catch(function(error) {
 			// 	console.log(error);
 			// });
