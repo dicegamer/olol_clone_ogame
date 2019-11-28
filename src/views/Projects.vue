@@ -15,7 +15,7 @@
 						size="mini"
 						type="success"
 						icon="el-icon-video-play"
-						v-if="scope.row.status"
+						v-if="scope.row.status === 'Ouvert'"
 						@click="handlePlay(scope.$index, scope.row)"
 					>Jouer</el-button>
 					<el-button
@@ -148,8 +148,18 @@ export default {
 
 				if (response.data.status === "success") {
 					//console.log(response.data);
-					
-					this.rowData = response.data.data;
+					var dataMieux = []
+					for (const row of response.data.data) {
+						console.log(row);
+						if(row.status === "1"){
+							row.status = "Ouvert"
+						}
+						else {
+							row.status = "Fermé"
+						}
+						dataMieux.push(row)
+					}
+					this.rowData = dataMieux;
 					//this.$emit("logged", response.data);
 				}
 			} catch (e) {
