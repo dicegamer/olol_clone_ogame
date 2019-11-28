@@ -104,6 +104,22 @@ export default {
 			console.log(index);
 			console.log(row);
 		},
+		async handleDelete(_index, row) {
+			console.log(row.id);
+			try {
+				var response = await this.$http.post(
+					"http://wksp.julien-bisson.fr:8080/api/project/delete",
+					{ id: row.id }
+				);
+
+				if (response.data.status === "success") {
+					console.log(response.data);
+					this.getData();
+				}
+			} catch (e) {
+				console.log(e); // 30
+			}
+		},
 		handleProjectRH(_index, row) {
 			this.$refs.dialogRh.openDialog(row.id);
 		},
@@ -141,7 +157,7 @@ export default {
 			// 	console.log(error);
 			// });
 		},
-		showNewProj(){
+		showNewProj() {
 			this.newProjVisible = true;
 		}
 	},
