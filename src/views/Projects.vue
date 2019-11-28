@@ -36,6 +36,28 @@
 			</el-table-column>
 		</el-table>
 		<dialog-rh ref="dialogRh"></dialog-rh>
+		<el-dialog title="Ajout d'un projet" :visible.sync="newProjVisible">
+			<el-form :model="newProj">
+				<el-form-item label="Nom du projet">
+					<el-input v-model="newProj.name" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="Nombre de tours max">
+					<el-input-number v-model="newProj.roundMax" autocomplete="off" :step="5"></el-input-number>
+				</el-form-item>
+				<el-form-item label="Nombre de joueurs max">
+					<el-input-number v-model="newProj.maxUsers" autocomplete="off" :step="5"></el-input-number>
+				</el-form-item>
+				<el-form-item label="Profil d'utilisateurs recherché">
+					<el-input v-model="newProj.profil" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="Points par défaut">
+					<el-input-number v-model="newProj.pr" autocomplete="off" :step="5"></el-input-number>
+				</el-form-item>
+			</el-form>
+			<span slot="footer" class="dialog-footer">
+				<el-button type="primary" @click="doAddProject">Confirm</el-button>
+			</span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -53,7 +75,16 @@ export default {
 				{ headerName: "Tours jouées", field: "pr" }
 			],
 			rowData: [],
-			user: this.$session.get("user")
+			user: this.$session.get("user"),
+			newProj: {
+				name: "",
+				roundMax: 10,
+				maxUsers: 10,
+				status: true,
+				profil: "Conducteur",
+				pr: 20
+			},
+			newProjVisible: false
 		};
 	},
 	beforeCreate: function() {
@@ -61,7 +92,7 @@ export default {
 			this.$router.push("/login");
 		}
 	},
-	mounted(){
+	mounted() {
 		this.getData();
 	},
 	methods: {
@@ -89,6 +120,29 @@ export default {
 			} catch (e) {
 				console.log(e); // 30
 			}
+		},
+		async doAddProject() {
+			var response = await this.$http.post(
+				"http://wksp.julien-bisson.fr:8080/api/project/add",
+				this.newProj
+			);
+			if (response.data.status === "success") {
+				console.log(response.data);
+				this.getData();
+				this.newProjVisible = false;
+			} else {
+				console.log("error");
+			}
+
+			// .catch(function(error) {
+			// 	console.log(error);
+			// });
+			// .then(function(error) {
+			// 	console.log(error);
+			// });
+		},
+		showNewProj(){
+			this.newProjVisible = true;
 		}
 	},
 	components: {

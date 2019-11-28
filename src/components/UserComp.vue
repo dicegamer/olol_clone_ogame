@@ -16,7 +16,7 @@
 					<el-button type="danger" icon="el-icon-close" @click="logout">Déconnexion</el-button>
 				</el-row>
 				<el-row v-if="user.role == 1">
-					<el-button type="success" icon="el-icon-plus" @click="meh">Ajouter un projet</el-button>
+					<el-button type="success" icon="el-icon-plus" @click="$emit('onAddProject')">Ajouter un projet</el-button>
 				</el-row>
 				
 			</el-col>
@@ -36,9 +36,6 @@ export default {
 		logout() {
 			this.$session.destroy();
 			this.$router.push("/login");
-		},
-		meh(){
-			
 		}
 	}
 };

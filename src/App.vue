@@ -4,12 +4,12 @@
 			<div id="container">
 				<el-row :class="{invisible: !$session.exists()}">
 					<el-col>
-						<usr-comp :user="userInfos"></usr-comp>
+						<usr-comp :user="userInfos" @onAddProject="addDahProject"></usr-comp>
 					</el-col>
 				</el-row>
 				<el-row id="main-content" :class="{removeColor: !$session.exists()}">
 					<el-col>
-						<router-view @logged="onLoggedIn" />
+						<router-view @logged="onLoggedIn" ref="rview"/>
 					</el-col>
 				</el-row>
 			</div>
@@ -34,6 +34,12 @@ export default {
 			this.userInfos = userInfos;
 			this.$session.set("user", userInfos);
 			this.$router.push("/projects");
+		},
+		addDahProject(){
+			if(this.$refs.rview.showNewProj !== undefined){
+				this.$refs.rview.showNewProj();
+			}
+			
 		}
 	}
 };
