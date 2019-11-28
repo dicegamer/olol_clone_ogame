@@ -9,13 +9,13 @@
 				<br />
 				Email : {{user.email}}
 				<br />
-				Rôle : {{user.role ? "Ressources Humaines" : "Employé"}}
+				Rôle : {{user.role == 1 ? "Ressources Humaines" : "Employé"}}
 			</el-col>
 			<el-col id="usr-comp-controls" :span="6">
 				<el-row>
 					<el-button type="danger" icon="el-icon-close" @click="logout">Déconnexion</el-button>
 				</el-row>
-				<el-row v-if="user.is_rh">
+				<el-row v-if="user.role == 1">
 					<el-button type="success" icon="el-icon-plus" @click="meh">Ajouter un projet</el-button>
 				</el-row>
 				

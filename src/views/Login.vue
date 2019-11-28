@@ -65,7 +65,7 @@ export default {
 				email: "",
 				firstname: "",
 				lastname: "",
-				role: 0,
+				role: "0",
 				password: ""
 			},
 			lol: "",
