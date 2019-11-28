@@ -1,7 +1,7 @@
 <template>
 	<div id="usr-comp">
 		<el-row>
-			<el-col :span="6"><img src="../assets/b_logo.png" alt="Logo du site" style="height: 100px;"></el-col>
+			<el-col :span="6"><img id="lol" src="../assets/b_logo.png" alt="Logo du site" style="height: 100px;" @click="$router.push('/projects')"></el-col>
 			<el-col :span="10" style="text-align: left;">
 				Nom : {{user.lastname}}
 				<br />
@@ -59,6 +59,10 @@ export default {
 	& .el-button{
 		width: 85%;
 	}
+}
+
+#lol{
+	cursor: pointer;
 }
 
 </style>

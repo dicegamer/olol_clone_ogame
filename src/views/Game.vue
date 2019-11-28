@@ -99,6 +99,7 @@ export default {
 		width: 90%;
 		margin: 10px;
 		&:hover {
+			cursor: pointer;
 		}
 	}
 	width: 20%;
