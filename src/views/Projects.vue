@@ -16,7 +16,7 @@
 						type="success"
 						icon="el-icon-video-play"
 						v-if="scope.row.status"
-						@click="handleEdit(scope.$index, scope.row)"
+						@click="handlePlay(scope.$index, scope.row)"
 					>Jouer</el-button>
 					<el-button
 						size="mini"
@@ -48,7 +48,14 @@
 					<el-input-number v-model="newProj.maxUsers" autocomplete="off" :step="5"></el-input-number>
 				</el-form-item>
 				<el-form-item label="Profil d'utilisateurs recherché">
-					<el-input v-model="newProj.profil" autocomplete="off"></el-input>
+					<el-select v-model="newProj.profil" placeholder="Selectionnez">
+						<el-option
+							v-for="profil in listeProfil"
+							:key="profil.id"
+							:label="profil.nom"
+							:value="profil.nom"
+						></el-option>
+					</el-select>
 				</el-form-item>
 				<el-form-item label="Points par défaut">
 					<el-input-number v-model="newProj.pr" autocomplete="off" :step="5"></el-input-number>
@@ -71,8 +78,14 @@ export default {
 			columnDefs: [
 				{ headerName: "Nom", field: "name" },
 				{ headerName: "Statut", field: "status" },
-				{ headerName: "Tour maximum", field: "roundMax" },
+				{ headerName: "Tour maximum", field: "round_max" },
 				{ headerName: "Tours jouées", field: "pr" }
+			],
+			listeProfil : [
+				{id: 1, nom:"Dominant"},
+				{id: 2, nom:"Influent"},
+				{id: 3, nom:"Social"},
+				{id: 4, nom:"Consciencieux"}
 			],
 			rowData: [],
 			user: this.$session.get("user"),
@@ -81,7 +94,7 @@ export default {
 				roundMax: 10,
 				maxUsers: 10,
 				status: true,
-				profil: "Conducteur",
+				profil: "",
 				pr: 20
 			},
 			newProjVisible: false
@@ -100,9 +113,13 @@ export default {
 			this.$session.destroy();
 			this.$router.push("/");
 		},
-		handleEdit(index, row) {
-			console.log(index);
-			console.log(row);
+		handlePlay(_index, row) {
+			// console.log(row.id);
+			this.$emit("letsPlay", row.id)
+		},
+		props: {
+			user: Object,
+			projectID: Number
 		},
 		async handleDelete(_index, row) {
 			console.log(row.id);
@@ -126,10 +143,12 @@ export default {
 		getData: async function() {
 			try {
 				var response = await this.$http.get(
-					"http://wksp.julien-bisson.fr:8080/api/projects/"
+					"http://wksp.julien-bisson.fr:8080/api/users/"+this.user.id+"/projects"
 				);
 
 				if (response.data.status === "success") {
+					//console.log(response.data);
+					
 					this.rowData = response.data.data;
 					//this.$emit("logged", response.data);
 				}

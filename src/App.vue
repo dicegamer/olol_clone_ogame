@@ -8,9 +8,7 @@
 					</el-col>
 				</el-row>
 				<el-row id="main-content" :class="{removeColor: !$session.exists()}">
-					<el-col>
-						<router-view @logged="onLoggedIn" ref="rview"/>
-					</el-col>
+					<el-col><router-view :user="userInfos" :projectID="projectID" @logged="onLoggedIn" @letsPlay="beginPlay" ref="rview"/></el-col>
 				</el-row>
 			</div>
 		</div>
@@ -26,7 +24,11 @@ export default {
 	},
 	data() {
 		return {
-			userInfos: this.$session.get("user") !== undefined ? this.$session.get("user") : {} 
+			userInfos:
+				this.$session.get("user") !== undefined
+					? this.$session.get("user")
+					: {},
+			projectID: 0
 		};
 	},
 	methods: {
@@ -35,11 +37,15 @@ export default {
 			this.$session.set("user", userInfos);
 			this.$router.push("/projects");
 		},
-		addDahProject(){
-			if(this.$refs.rview.showNewProj !== undefined){
+		addDahProject() {
+			if (this.$refs.rview.showNewProj !== undefined) {
 				this.$refs.rview.showNewProj();
 			}
-			
+		},
+		beginPlay(projectID) {
+
+			this.projectID = projectID;
+			this.$router.push("/game")
 		}
 	}
 };

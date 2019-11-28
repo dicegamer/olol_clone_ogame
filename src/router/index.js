@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Projects from "../views/Projects.vue";
+import Game from "../views/Game.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -29,6 +31,11 @@ const routes = [
 		path: "/projects",
 		name: "projects",
 		component: Projects
+	},
+	{
+		path: "/game",
+		name: "game",
+		component: Game
 	}
 ];
 
